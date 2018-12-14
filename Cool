@@ -1,0 +1,48 @@
+#Johnathan Zhao
+#Project 2- Solving a System
+
+def SolveSystem(L,K):
+    print("First divide the second equation by",str(K[0]))
+    return SolveSystem(L,K)
+
+def StartSystem(var1,var2):
+    L=[]
+    K=[]
+    for i in range(0,len(var1)):
+        L.append(float(var1[i]))
+    for j in range(0,len(var2)):
+        K.append(float(var2[j]))
+    print([L],"\n"+str([K]))
+    return L,K
+    SolveSystem(L,K)
+    
+def ValidateSystem(inp1,inp2,repeat):
+    answer=input("Is this the function you want to input(y or n)")
+    if(answer=="Y" or answer=="y"):
+        StartSystem(var1,var2)
+    else:
+        CreateSystem(var1,var2)
+        
+def CreateSystem(inp1,inp2):
+    print("You entered the equations",str(float(var1[0]))+"x+"+str(float(var1[1]))+"y="+str(float(var1[2])))
+    ValidateSystem(inp1,inp2,repeat)
+    return CreateSystem(inp1,inp2)
+
+
+repeat = True
+
+inp1=input("Enter values for a,b, and e sepearted by commas")
+
+inp2=input("Enter values for c,d, and f seperated by commas")
+
+inp1=inp1.replace(" ","")
+
+var1=inp1.split(",")
+
+inp2=inp2.replace(" ","")
+
+var2=inp2.split(",")
+
+L,K= StartSystem(var1,var2)
+
+

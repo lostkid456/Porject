@@ -1,9 +1,19 @@
 #Johnathan Zhao
 #Project 2- Solving a System
 
-def SolveSystem(L,K):
-    print("First divide the second equation by",str(K[0]))
-    return SolveSystem(L,K)
+def replaceList(inp1,inp2,var1,var2):
+    reinp1=input("Enter values for a,b, and e sepearted by commas")
+    reinp2=input("Enter values for c,d, and f seperated by commas")
+    reinp1=reinp1.replace(" ", "")
+    reinp2=reinp2.replace(" ","")
+    revar1=reinp1.split(",")
+    revar2=reinp2.split(",")
+    for i in range(0,len(var1)):
+        var1[i]=revar1[i]
+    for j in range(0,len(var2)):
+        var2[j]=revar2[j]
+    CreateSystem(inp1,inp2)
+    return replaceList(inp1,inp2,var1,var2)
 
 def StartSystem(var1,var2):
     L=[]
@@ -12,25 +22,76 @@ def StartSystem(var1,var2):
         L.append(float(var1[i]))
     for j in range(0,len(var2)):
         K.append(float(var2[j]))
-    print([L],"\n"+str([K]))
+    print(str([L]),"\n"+str([K]))
     return L,K
-    SolveSystem(L,K)
     
-def ValidateSystem(inp1,inp2,repeat):
+def ValidateSystem(inp1,inp2,repeat,Y,X):
     answer=input("Is this the function you want to input(y or n)")
-    if(answer=="Y" or answer=="y"):
-        StartSystem(var1,var2)
-    else:
-        CreateSystem(var1,var2)
-        
+    while(repeat==True):
+        if(answer=="Y" or answer=="y"):
+            for i in range(0,len(L)):
+                for j in range(0,len(K)):
+                    if(L[i]==K[j]):
+                        print("There is an infinite amount of solutions.")
+                    else:
+                        print("First you multiply the first equation by",1/L[0])
+                        for i in range(0,len(L)):
+                            L[i]=(1/L[0])*L[i]
+                        print(str([L]),"\n"+str([K]))
+                        print("Then you multiply the second equation by",1/K[0])
+                        for i in range(0,len(K)):
+                            K[i]=(1/K[0])*K[i]
+                        print(str([L]),"\n"+str([K]))
+                        print("After multiply the top equation by -1")
+                        for i in range(0,len(L)):
+                            L[i]=-1*L[i]
+                        print(str([L]),"\n"+str([K]))
+                        print("Now you add the first equation to the second equation.")
+                        for i in range(0,len(K)):
+                            K[i]=float(L[i])+float(K[i])
+                        Y=K[2]
+                        print(str([L]),"\n"+str([K]))
+                        print("Multiply the second equation by",float(-L[1]))
+                        for i in range(0,len(K)):
+                            K[i]=float(-L[1])*K[i]
+                        print(str([L]),"\n"+str([K]))
+                        print("Add the second equation to the first equation")
+                        for i in range(0,len(L)):
+                            L[i]=float(L[i])+float(K[i])
+                        print(str([L]),"\n"+str([K]))
+                        print("Multiply first equation by -1")
+                        for i in range(0,len(L)):
+                                L[i]=-L[i]
+                        print(str([L]),"\n"+str([K]))
+                        X=L[2]
+                        TryAgian(counter)
+                        
+        else:
+           replaceList(inp1,inp2,var1,var2)
+           
+def TryAgian(counter):
+    while(counter==True):
+        ans=input("Do you want to try agian?(y or n)")
+        if(ans=="y" or ans=="Y"):
+            replaceList(inp1,inp2,var1,var2)
+        else:
+            SystemExit 
+    
 def CreateSystem(inp1,inp2):
-    print("You entered the equations",str(float(var1[0]))+"x+"+str(float(var1[1]))+"y="+str(float(var1[2])))
-    ValidateSystem(inp1,inp2,repeat)
+    print("You entered the equations",str(float(var1[0]))+"x+"+str(float(var1[1]))+"y="+str(float(var1[2]))+"\nand",str(float(var2[0]))+"x+"+str(float(var2[1]))+"y="+str(float(var2[2])))
+    ValidateSystem(inp1,inp2,repeat,Y,X)
     return CreateSystem(inp1,inp2)
 
 
-repeat = True
 
+repeat=True
+
+counter=True
+
+Y=0
+
+X=0
+                   
 inp1=input("Enter values for a,b, and e sepearted by commas")
 
 inp2=input("Enter values for c,d, and f seperated by commas")
@@ -43,6 +104,15 @@ inp2=inp2.replace(" ","")
 
 var2=inp2.split(",")
 
-L,K= StartSystem(var1,var2)
+print(CreateSystem(inp1,inp2))
+
+
+
+
+
+
+
+
+
 
 

@@ -1,6 +1,23 @@
 #Johnathan Zhao
 #Project 2- Solving a System
 
+import sys
+
+def CheckSystem(Y,X,var1,var2):
+    print("Lets check our solution. ")
+    print(str(float(var1[0])),"*",X,"+",str(float(var1[1])),"*",Y,"=",str(float(var1[2])))
+    print(str(float(var2[0])),"*",X,"+",str(float(var2[1])),"*",Y,"=",str(float(var2[2])))
+    if((float(var1[0])*X)+(float(var1[1])*Y)==float(var1[2]) and ((float(var2[0])*X)+(float(var2[1])*Y)==float(var2[2]))):
+        print((float(var1[0])*X)+(float(var1[1])*Y),"=",float(var1[2]))
+        print((float(var2[0])*X)+(float(var2[1])*Y),"=",float(var2[2]))
+        print("YAY IT WORKKKSSSS!!!!")
+    else:
+        print("ITS WRONG")
+    sys.exit()
+    return CheckSystem
+
+
+    
 def replaceList(inp1,inp2,var1,var2):
     reinp1=input("Enter values for a,b, and e sepearted by commas")
     reinp2=input("Enter values for c,d, and f seperated by commas")
@@ -13,6 +30,7 @@ def replaceList(inp1,inp2,var1,var2):
     for j in range(0,len(var2)):
         var2[j]=revar2[j]
     CreateSystem(inp1,inp2)
+    StartSystem(var1,var2)
     return replaceList(inp1,inp2,var1,var2)
 
 def StartSystem(var1,var2):
@@ -25,23 +43,30 @@ def StartSystem(var1,var2):
     print(str([L]),"\n"+str([K]))
     return L,K
     
-def ValidateSystem(inp1,inp2,repeat,Y,X):
+def ValidateSystem(var1,var2,inp1,inp2,repeat,Y,X):
     answer=input("Is this the function you want to input(y or n)")
+    StartSystem(var1,var2)
     while(repeat==True):
         if(answer=="Y" or answer=="y"):
+            constant1=L[0]
+            print("First you multiply the first equation by",1/constant1)
             for i in range(0,len(L)):
-                for j in range(0,len(K)):
-                    if(L[i]==K[j]):
-                        print("There is an infinite amount of solutions.")
+                L[i]=L[i]*(1/constant1)
+            print(str([L]),"\n"+str([K]))
+            constant2=K[0]
+            print("Then you multiply the second equation by",1/K[0])
+            for i in range(0,len(K)):
+                K[i]=(1/constant2)*K[i]
+            print(str([L]),"\n"+str([K]))
+            for i in range(1,len(L)):
+                for j in range(1,len(K)):
+                    if(L[0]==K[0] and L[1]==K[1] and L[2]!=K[2]):
+                        print("There are no solutions to this system!")
+                        sys.exit()
+                    elif(L[i]==K[j]):
+                        print("There are an infinite amount of solutions! They are the same equation.")
+                        sys.exit()
                     else:
-                        print("First you multiply the first equation by",1/L[0])
-                        for i in range(0,len(L)):
-                            L[i]=(1/L[0])*L[i]
-                        print(str([L]),"\n"+str([K]))
-                        print("Then you multiply the second equation by",1/K[0])
-                        for i in range(0,len(K)):
-                            K[i]=(1/K[0])*K[i]
-                        print(str([L]),"\n"+str([K]))
                         print("After multiply the top equation by -1")
                         for i in range(0,len(L)):
                             L[i]=-1*L[i]
@@ -49,37 +74,43 @@ def ValidateSystem(inp1,inp2,repeat,Y,X):
                         print("Now you add the first equation to the second equation.")
                         for i in range(0,len(K)):
                             K[i]=float(L[i])+float(K[i])
-                        Y=K[2]
                         print(str([L]),"\n"+str([K]))
-                        print("Multiply the second equation by",float(-L[1]))
+                        constant3=K[1]
+                        print("Now multiply the  second equation by",1/constant3)
                         for i in range(0,len(K)):
-                            K[i]=float(-L[1])*K[i]
+                            K[i]=(1/constant3)*K[i]
                         print(str([L]),"\n"+str([K]))
+                        constant4=L[1]
+                        print("Now multiply the second equation by",-constant4)
+                        for i in range(0,len(K)):
+                            K[i]=(-constant4)*K[i]
+                        print(str([L]),"\n"+str([K]))   
                         print("Add the second equation to the first equation")
                         for i in range(0,len(L)):
                             L[i]=float(L[i])+float(K[i])
                         print(str([L]),"\n"+str([K]))
                         print("Multiply first equation by -1")
+                        constant5=-1
                         for i in range(0,len(L)):
-                                L[i]=-L[i]
+                             L[i]=L[i]*constant5
                         print(str([L]),"\n"+str([K]))
                         X=L[2]
-                        TryAgian(counter)
-                        
+                        constant6=K[1]
+                        print("Multiply the second equation by",1/constant6)
+                        for i in range(1,len(K)):
+                            K[i]=K[i]*(1/constant6)
+                        print(str([L]),"\n"+str([K]))
+                        Y=K[2]
+                        print("The solutions to the system is (",X,",",Y,")")
+                        CheckSystem(Y,X,var1,var2)
+                        return ValidateSystem(var1,var2,inp1,inp2,repeat,Y,X)
         else:
            replaceList(inp1,inp2,var1,var2)
-           
-def TryAgian(counter):
-    while(counter==True):
-        ans=input("Do you want to try agian?(y or n)")
-        if(ans=="y" or ans=="Y"):
-            replaceList(inp1,inp2,var1,var2)
-        else:
-            SystemExit 
-    
+               
 def CreateSystem(inp1,inp2):
     print("You entered the equations",str(float(var1[0]))+"x+"+str(float(var1[1]))+"y="+str(float(var1[2]))+"\nand",str(float(var2[0]))+"x+"+str(float(var2[1]))+"y="+str(float(var2[2])))
-    ValidateSystem(inp1,inp2,repeat,Y,X)
+    ValidateSystem(var1,var2,inp1,inp2,repeat,Y,X)
+    StartSystem(var1.var2)
     return CreateSystem(inp1,inp2)
 
 
@@ -104,8 +135,9 @@ inp2=inp2.replace(" ","")
 
 var2=inp2.split(",")
 
-print(CreateSystem(inp1,inp2))
+L,K=StartSystem(var1,var2)
 
+print(CreateSystem(inp1,inp2))
 
 
 

@@ -3,7 +3,8 @@
 
 import sys
 
-def CheckSystem(Y,X,var1,var2):
+ #Checks the solution of the system
+def CheckSystem(Y,X,var1,var2):          
     print("Lets check our solution. ")
     print(str(float(var1[0])),"*",X,"+",str(float(var1[1])),"*",Y,"=",str(float(var1[2])))
     print(str(float(var2[0])),"*",X,"+",str(float(var2[1])),"*",Y,"=",str(float(var2[2])))
@@ -17,7 +18,7 @@ def CheckSystem(Y,X,var1,var2):
     return CheckSystem
 
 
-    
+#Changes the value of your original system    
 def replaceList(inp1,inp2,var1,var2):
     reinp1=input("Enter values for a,b, and e sepearted by commas")
     reinp2=input("Enter values for c,d, and f seperated by commas")
@@ -31,8 +32,10 @@ def replaceList(inp1,inp2,var1,var2):
         var2[j]=revar2[j]
     CreateSystem(inp1,inp2)
     StartSystem(var1,var2)
+    ValidateSystem(var1,var2,inp1,inp2,repeat,Y,X)
     return replaceList(inp1,inp2,var1,var2)
 
+#Creates the list for system
 def StartSystem(var1,var2):
     L=[]
     K=[]
@@ -42,7 +45,8 @@ def StartSystem(var1,var2):
         K.append(float(var2[j]))
     print(str([L]),"\n"+str([K]))
     return L,K
-    
+
+#Validates your equation and Solves it Step by Step 
 def ValidateSystem(var1,var2,inp1,inp2,repeat,Y,X):
     answer=input("Is this the function you want to input(y or n)")
     StartSystem(var1,var2)
@@ -106,7 +110,8 @@ def ValidateSystem(var1,var2,inp1,inp2,repeat,Y,X):
                         return ValidateSystem(var1,var2,inp1,inp2,repeat,Y,X)
         else:
            replaceList(inp1,inp2,var1,var2)
-               
+
+#Creates your system and leads to validating your system               
 def CreateSystem(inp1,inp2):
     print("You entered the equations",str(float(var1[0]))+"x+"+str(float(var1[1]))+"y="+str(float(var1[2]))+"\nand",str(float(var2[0]))+"x+"+str(float(var2[1]))+"y="+str(float(var2[2])))
     ValidateSystem(var1,var2,inp1,inp2,repeat,Y,X)
@@ -115,7 +120,7 @@ def CreateSystem(inp1,inp2):
 
 
 
-repeat=True
+repeat=True  
 
 counter=True
 
@@ -138,7 +143,6 @@ var2=inp2.split(",")
 L,K=StartSystem(var1,var2)
 
 print(CreateSystem(inp1,inp2))
-
 
 
 
